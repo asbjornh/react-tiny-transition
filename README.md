@@ -28,9 +28,9 @@ import TinyTransition from "react-tiny-transition";
 ...
 
 <TinyTransition duration={500}>
-	{this.state.isVisible &&
-		<MyComponent />
-	}
+  {this.state.isVisible &&
+    <MyComponent />
+  }
 </TinyTransition>
 ```
 
@@ -38,19 +38,19 @@ import TinyTransition from "react-tiny-transition";
 
 ```css
 .before-enter {
-	opacity: 0;
+  opacity: 0;
 }
 
 .entering {
-	transition: opacity 0.5s;
+  transition: opacity 0.5s;
 }
 
 .before-leave {
-	transition: opacity 0.5s;
+  transition: opacity 0.5s;
 }
 
 .leaving {
-	opacity: 0;
+  opacity: 0;
 }
 ```
 
@@ -58,16 +58,16 @@ import TinyTransition from "react-tiny-transition";
 
 ```js
 <TinyTransition
-	classNames={{
-		beforeEnter: "my-before-enter",
-		entering: "my-entering",
-		beforeLeave: "my-before-leave",
-		leaving: "my-leaving"
-	}}
-	duration={500}
+  classNames={{
+    beforeEnter: "my-before-enter",
+    entering: "my-entering",
+    beforeLeave: "my-before-leave",
+    leaving: "my-leaving"
+  }}
+  duration={500}
 >
-	{this.state.isVisible &&
-		<MyComponent />
-	}
+  {this.state.isVisible &&
+    <MyComponent />
+  }
 </TinyTransition>
 ```
