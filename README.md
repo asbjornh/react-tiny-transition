@@ -1,4 +1,5 @@
 # TinyTransition
+[![npm version](https://img.shields.io/npm/v/react-tiny-transition.svg?style=flat)](https://www.npmjs.com/package/react-tiny-transition)
 
 This component adds classnames to your component when it mounts/unmounts so that you can add css transitions to it. basically the same thing as CSSTransition from [react-transition-group](https://github.com/reactjs/react-transition-group), except smaller and without dependencies.
 
