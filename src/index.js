@@ -12,7 +12,7 @@ function cn(...classNames) {
   return [...classNames].filter(className => !!className).join(" ");
 }
 
-class CSSTransition extends React.Component {
+class TinyTransition extends React.Component {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.bool]),
     classNames: PropTypes.shape({
@@ -114,4 +114,4 @@ class CSSTransition extends React.Component {
   }
 }
 
-export default CSSTransition;
+export default TinyTransition;

@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 
-import CSSTransition from "../src";
+import TinyTransition from "../src";
 
 class Main extends React.Component {
   state = {
@@ -48,9 +48,9 @@ class Main extends React.Component {
         <button onClick={this.toggle}>Show content</button>
 
         <div>
-          <CSSTransition duration={500}>
+          <TinyTransition duration={500}>
             {this.state.contentIsVisible && <h1 className="test">Hello!</h1>}
-          </CSSTransition>
+          </TinyTransition>
         </div>
       </div>
     );

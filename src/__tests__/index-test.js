@@ -3,7 +3,7 @@
 jest.disableAutomock().useRealTimers();
 
 const React = require("react");
-const CSSTransition = require("..").default;
+const TinyTransition = require("..").default;
 const TestUtils = require("react-dom/test-utils");
 
 describe("ReactFlipMotion", () => {
@@ -14,9 +14,9 @@ describe("ReactFlipMotion", () => {
   it("should not crash", () => {
     expect(() =>
       TestUtils.renderIntoDocument(
-        <CSSTransition duration={500}>
+        <TinyTransition duration={500}>
           <div />
-        </CSSTransition>
+        </TinyTransition>
       )
     ).not.toThrow();
   });
@@ -34,21 +34,21 @@ describe("ReactFlipMotion", () => {
       }
       render() {
         return (
-          <CSSTransition duration={500}>
+          <TinyTransition duration={500}>
             <View style={{ height: 10, fontSize: 10 }}>{"foo"}</View>
-          </CSSTransition>
+          </TinyTransition>
         );
       }
     }
 
     const testComponent = TestUtils.renderIntoDocument(<TestComponent />);
 
-    const reactCSSTransition = TestUtils.findRenderedComponentWithType(
+    const reactTinyTransition = TestUtils.findRenderedComponentWithType(
       testComponent,
-      CSSTransition
+      TinyTransition
     );
     const elements = TestUtils.scryRenderedComponentsWithType(
-      reactCSSTransition,
+      reactTinyTransition,
       View
     );
     expect(elements.length).toBe(1);
@@ -67,22 +67,22 @@ describe("ReactFlipMotion", () => {
       }
       render() {
         return (
-          <CSSTransition duration={500}>
+          <TinyTransition duration={500}>
             <View style={{ height: 10, fontSize: 10 }}>{"foo"}</View>
             <View style={{ height: 10, fontSize: 10 }}>{"bar"}</View>
-          </CSSTransition>
+          </TinyTransition>
         );
       }
     }
 
     const testComponent = TestUtils.renderIntoDocument(<TestComponent />);
 
-    const reactCSSTransition = TestUtils.findRenderedComponentWithType(
+    const reactTinyTransition = TestUtils.findRenderedComponentWithType(
       testComponent,
-      CSSTransition
+      TinyTransition
     );
     const elements = TestUtils.scryRenderedComponentsWithType(
-      reactCSSTransition,
+      reactTinyTransition,
       View
     );
     expect(elements.length).toBe(0);
@@ -104,23 +104,23 @@ describe("ReactFlipMotion", () => {
       }
       render() {
         return (
-          <CSSTransition duration={500}>
+          <TinyTransition duration={500}>
             {this.state.contentIsVisible && (
               <View style={{ height: 10, fontSize: 10 }}>{"foo"}</View>
             )}
-          </CSSTransition>
+          </TinyTransition>
         );
       }
     }
 
     const testComponent = TestUtils.renderIntoDocument(<TestComponent />);
 
-    const reactCSSTransition = TestUtils.findRenderedComponentWithType(
+    const reactTinyTransition = TestUtils.findRenderedComponentWithType(
       testComponent,
-      CSSTransition
+      TinyTransition
     );
     const elements = TestUtils.scryRenderedComponentsWithType(
-      reactCSSTransition,
+      reactTinyTransition,
       View
     );
     expect(elements.length).toBe(0);
@@ -131,12 +131,12 @@ describe("ReactFlipMotion", () => {
 
     return new Promise(done => {
       setTimeout(() => {
-        const reactCSSTransition = TestUtils.findRenderedComponentWithType(
+        const reactTinyTransition = TestUtils.findRenderedComponentWithType(
           testComponent,
-          CSSTransition
+          TinyTransition
         );
         const elements = TestUtils.scryRenderedComponentsWithType(
-          reactCSSTransition,
+          reactTinyTransition,
           View
         );
         expect(elements.length).toBe(1);
@@ -162,11 +162,11 @@ describe("ReactFlipMotion", () => {
       }
       render() {
         return (
-          <CSSTransition duration={500}>
+          <TinyTransition duration={500}>
             {this.state.contentIsVisible && (
               <View style={{ height: 10, fontSize: 10 }}>{"foo"}</View>
             )}
-          </CSSTransition>
+          </TinyTransition>
         );
       }
     }
@@ -179,15 +179,15 @@ describe("ReactFlipMotion", () => {
 
     return new Promise(done => {
       setTimeout(() => {
-        const reactCSSTransition = TestUtils.findRenderedComponentWithType(
+        const reactTinyTransition = TestUtils.findRenderedComponentWithType(
           testComponent,
-          CSSTransition
+          TinyTransition
         );
         const elements = TestUtils.scryRenderedComponentsWithType(
-          reactCSSTransition,
+          reactTinyTransition,
           View
         );
-        expect(reactCSSTransition.props.children).toBe(false);
+        expect(reactTinyTransition.props.children).toBe(false);
         expect(elements.length).toBe(1);
         done();
       }, 400);
