@@ -43,6 +43,7 @@ import TinyTransition from "react-tiny-transition";
 
 .entering {
   transition: opacity 0.5s;
+  opacity: 1;
 }
 
 .before-leave {

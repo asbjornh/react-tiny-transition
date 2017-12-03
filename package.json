@@ -1,13 +1,10 @@
 {
-  "name": "react-minimal-css-transition",
-  "version": "1.0.0",
-  "description": "A small component that adds class names on mount/unmount for you to add css transitions to",
+  "name": "react-tiny-transition",
+  "version": "1.0.1",
+  "description":
+    "A small component that adds class names on mount/unmount for you to add css transitions to",
   "main": "lib/index.js",
-  "files": [
-    "lib",
-    "LICENSE",
-    "README.md"
-  ],
+  "files": ["lib", "LICENSE", "README.md"],
   "scripts": {
     "start": "rm -fr lib/ && babel src --out-dir lib --ignore='__tests__'",
     "test": "jest --verbose",
@@ -16,13 +13,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/asbjornh/react-minimal-css-transition.git"
+    "url": "git+ssh://git@github.com/asbjornh/react-tiny-transition.git"
   },
-  "keywords": [
-    "react",
-    "css-transition",
-    "animation"
-  ],
+  "keywords": ["react", "css-transition", "animation"],
   "contributors": [
     {
       "name": "Asbjorn Hegdahl",
@@ -32,9 +25,9 @@
   "author": "Asbjorn Hegdahl",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/asbjornh/react-minimal-css-transition/issues"
+    "url": "https://github.com/asbjornh/react-tiny-transition/issues"
   },
-  "homepage": "https://github.com/asbjornh/react-minimal-css-transition#readme",
+  "homepage": "https://github.com/asbjornh/react-tiny-transition#readme",
   "devDependencies": {
     "babel-cli": "^6.9.0",
     "babel-core": "^6.9.1",
@@ -66,14 +59,8 @@
   },
   "jest": {
     "rootDir": "",
-    "modulePathIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ],
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ],
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/"
-    ]
+    "modulePathIgnorePatterns": ["<rootDir>/node_modules/"],
+    "transformIgnorePatterns": ["<rootDir>/node_modules/"],
+    "unmockedModulePathPatterns": ["<rootDir>/node_modules/"]
   }
 }
