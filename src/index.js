@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, Children } from "react";
 import PropTypes from "prop-types";
 
 const transitionStates = {
@@ -12,7 +12,7 @@ function cn(...classNames) {
   return [...classNames].filter(className => !!className).join(" ");
 }
 
-class TinyTransition extends React.Component {
+class TinyTransition extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.bool]),
     classNames: PropTypes.shape({
@@ -59,10 +59,13 @@ class TinyTransition extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.children !== this.props.children) {
+    const newChildren = Children.toArray(nextProps.children);
+    const oldChildren = Children.toArray(this.props.children);
+
+    if (newChildren.length !== oldChildren.length) {
       const { beforeEnter, entering, beforeLeave, leaving } = transitionStates;
 
-      if (nextProps.children) {
+      if (newChildren.length) {
         // Element is about to mount
         this.setState(
           {
@@ -96,18 +99,23 @@ class TinyTransition extends React.Component {
           }, 16);
         });
       }
+    } else {
+      this.setState({
+        children: nextProps.children
+      });
     }
   }
 
   render() {
-    const child = this.state.children;
-    const childClass = (child && child.props && child.props.className) || "";
+    const children = this.state.children;
+    const childrenClass =
+      (children && children.props && children.props.className) || "";
 
-    return !child || child.length > 1
+    return !children || children.length > 1
       ? null
-      : React.cloneElement(child, {
+      : React.cloneElement(children, {
           className: cn(
-            childClass,
+            childrenClass,
             this.getClassName(this.state.transitionState)
           )
         });
