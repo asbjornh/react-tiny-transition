@@ -21,40 +21,7 @@ describe("ReactFlipMotion", () => {
     ).not.toThrow();
   });
 
-  it("should render one child", () => {
-    class View extends React.Component {
-      render() {
-        return <div {...this.props} />;
-      }
-    }
-
-    class TestComponent extends React.Component {
-      constructor(props) {
-        super(props);
-      }
-      render() {
-        return (
-          <TinyTransition duration={500}>
-            <View style={{ height: 10, fontSize: 10 }}>{"foo"}</View>
-          </TinyTransition>
-        );
-      }
-    }
-
-    const testComponent = TestUtils.renderIntoDocument(<TestComponent />);
-
-    const reactTinyTransition = TestUtils.findRenderedComponentWithType(
-      testComponent,
-      TinyTransition
-    );
-    const elements = TestUtils.scryRenderedComponentsWithType(
-      reactTinyTransition,
-      View
-    );
-    expect(elements.length).toBe(1);
-  });
-
-  it("should return null on multiple children", () => {
+  it("should render children", () => {
     class View extends React.Component {
       render() {
         return <div {...this.props} />;
@@ -85,7 +52,7 @@ describe("ReactFlipMotion", () => {
       reactTinyTransition,
       View
     );
-    expect(elements.length).toBe(0);
+    expect(elements.length).toBe(2);
   });
 
   it("should apply classnames", () => {
