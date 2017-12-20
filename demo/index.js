@@ -5,7 +5,7 @@ import TinyTransition from "../src";
 
 class Main extends React.Component {
   state = {
-    contentIsVisible: false
+    contentIsVisible: true
   };
 
   toggle = () => {
@@ -45,7 +45,7 @@ class Main extends React.Component {
             }
           `}
         </style>
-        <button onClick={this.toggle}>Show content</button>
+        <button onClick={this.toggle}>Toggle content</button>
 
         <div>
           <TinyTransition duration={500}>

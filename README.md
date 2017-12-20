@@ -18,7 +18,7 @@ npm install react-tiny-transition
 
 ### Props:
 - `duration` *(required)*: `Number`, the duration of your css transition in milliseconds
-- `children` *(optional)*: `React component`, only one root node allowed
+- `children` *(optional)*: `React element`
 - `classNames` *(optional)*: `Object`, if the default classnames don't cut it, you can add your own here (see example below)
 
 #### Basic example:

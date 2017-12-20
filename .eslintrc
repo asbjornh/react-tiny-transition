@@ -37,7 +37,7 @@
     "semi": 1,
     "react/no-deprecated": 2,
     "react/no-direct-mutation-state": 2,
-    "react/no-multi-comp": 1,
+    "react/no-multi-comp": 0,
     "react/no-unused-prop-types": 1,
     "react/prefer-stateless-function": 1,
     "react/prop-types": 1,
@@ -59,6 +59,6 @@
     ],
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
-    "react/jsx-wrap-multilines": 2
+    "react/jsx-wrap-multilines": 1
   }
 }
