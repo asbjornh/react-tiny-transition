@@ -1,6 +1,6 @@
 {
   "name": "react-tiny-transition",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description":
     "A small component that adds class names on mount/unmount for you to add css transitions to",
   "main": "lib/index.js",
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com/asbjornh/react-tiny-transition.git"
   },
-  "keywords": ["react", "css-transition", "animation"],
+  "keywords": ["react", "css-transition", "animation", "mount", "unmount"],
   "contributors": [
     {
       "name": "Asbjorn Hegdahl",
