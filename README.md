@@ -1,4 +1,5 @@
 # TinyTransition
+
 [![npm version](https://img.shields.io/npm/v/react-tiny-transition.svg?style=flat)](https://www.npmjs.com/package/react-tiny-transition)
 
 This component adds classnames to your component when it mounts/unmounts so that you can add css transitions to it. basically the same thing as CSSTransition from [react-transition-group](https://github.com/reactjs/react-transition-group), except smaller and without dependencies.
@@ -6,20 +7,24 @@ This component adds classnames to your component when it mounts/unmounts so that
 This component does not include any transition effects; you need to add your own. See example css below.
 
 ### Install:
+
 ```
 yarn add react-tiny-transition
 ```
+
 or
 
 ```
 npm install react-tiny-transition
 ```
 
-
 ### Props:
-- `duration` *(required)*: `Number`, the duration of your css transition in milliseconds
-- `children` *(optional)*: `React element`
-- `classNames` *(optional)*: `Object`, if the default classnames don't cut it, you can add your own here (see example below)
+
+| Prop         | Type          | Required? | Description                                                                       |
+| ------------ | ------------- | --------- | --------------------------------------------------------------------------------- |
+| `duration`   | Number        | yes       | The duration of your css transition in milliseconds.                              |
+| `children`   | React element | no        |
+| `classNames` | Object        | no        | If the default classnames don't cut it, you can add your own (see example below). |
 
 #### Basic example:
 
@@ -33,6 +38,16 @@ import TinyTransition from "react-tiny-transition";
     <MyComponent />
   }
 </TinyTransition>
+```
+
+Please note that TinyTransition will pass classnames through props.className, so remember to apply these in your component:
+
+```js
+const MyComponent = ({ className }) => (
+  <div className={"my-component " + className}>
+    "hello"
+  </div>
+);
 ```
 
 #### CSS example:
@@ -68,8 +83,6 @@ import TinyTransition from "react-tiny-transition";
   }}
   duration={500}
 >
-  {this.state.isVisible &&
-    <MyComponent />
-  }
+  {this.state.isVisible && <MyComponent />}
 </TinyTransition>
 ```
