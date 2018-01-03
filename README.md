@@ -23,8 +23,19 @@ npm install react-tiny-transition
 | Prop         | Type          | Required? | Description                                                                       |
 | ------------ | ------------- | --------- | --------------------------------------------------------------------------------- |
 | `duration`   | Number        | yes       | The duration of your css transition in milliseconds.                              |
-| `children`   | React element | no        |
+| `children`   | React element | no        | One or more React elements (please see "Keys" below)
 | `classNames` | Object        | no        | If the default classnames don't cut it, you can add your own (see example below). |
+
+#### Keys:
+Sadly, TinyTransition doesn't like keys on its children, so if you are iterating you need to wrap each child in an instance of TinyTransition like so:
+
+```js
+{myItems.map(item => (
+  <TinyTransition duration={500} key={item.id}>
+    <div>{item}</div>
+  </TinyTransition>
+}
+```
 
 #### Basic example:
 

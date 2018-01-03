@@ -15,15 +15,50 @@ const propTypes = {
 class TinyTransitionWrapper extends Component {
   static propTypes = propTypes;
 
+  state = {
+    children: this.props.children
+  };
+
+  timer;
+
+  componentWillReceiveProps(nextProps) {
+    const newChildren = Children.toArray(nextProps.children);
+    const oldChildren = Children.toArray(this.props.children);
+
+    if (newChildren.length < oldChildren.length) {
+      this.setState(
+        {
+          children: oldChildren.map(
+            (oldChild, index) =>
+              newChildren.every(newChild => newChild.key !== oldChild.key)
+                ? null
+                : this.props.children[index]
+          )
+        },
+        () => {
+          clearTimeout(this.timer);
+          this.timer = setTimeout(() => {
+            this.setState({ children: nextProps.children });
+          }, this.props.duration);
+        }
+      );
+    } else {
+      clearTimeout(this.timer);
+      this.setState({ children: nextProps.children });
+    }
+  }
+
   render() {
-    return Children.map(this.props.children, child => (
-      <TinyTransition
-        duration={this.props.duration}
-        classNames={this.props.classNames}
-      >
-        {child}
-      </TinyTransition>
-    ));
+    return Children.map(this.state.children, child => {
+      return (
+        <TinyTransition
+          duration={this.props.duration}
+          classNames={this.props.classNames}
+        >
+          {child}
+        </TinyTransition>
+      );
+    });
   }
 }
 
@@ -116,6 +151,10 @@ class TinyTransition extends Component {
     if (this.props.children) {
       this.animateIn(this.props.children);
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   componentWillReceiveProps(nextProps) {
