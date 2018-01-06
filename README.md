@@ -6,6 +6,9 @@ This component adds classnames to your component when it mounts/unmounts so that
 
 This component does not include any transition effects; you need to add your own. See example css below.
 
+### Browser support:
+TinyTransition needs `requestAnimationFrame` and `element.classList` in order to do its thing, so make sure to add polyfills if you need to support older browsers (like IE9 and below).
+
 ### Install:
 
 ```
@@ -20,22 +23,13 @@ npm install react-tiny-transition
 
 ### Props:
 
-| Prop         | Type          | Required? | Description                                                                       |
+| Prop         | Type          | Default | Description                                                                       |
 | ------------ | ------------- | --------- | --------------------------------------------------------------------------------- |
-| `duration`   | Number        | yes       | The duration of your css transition in milliseconds.                              |
-| `children`   | React element | no        | One or more React elements (please see "Keys" below)
-| `classNames` | Object        | no        | If the default classnames don't cut it, you can add your own (see example below). |
+| `duration`   | Number        | 500       | The duration of your css transition (milliseconds)                              |
+| `delay`      | Number        | 0         | Delay before adding classnames (milliseconds)
+| `children`   | React element |         | Single React element
+| `classNames` | Object        | <pre>{<br>  beforeEnter: "before-enter",<br>  entering: "entering",<br>  beforeLeave: "before-leave",<br>  leaving: "leaving"<br>}</pre>    | Classnames to use when mounting / unmounting |
 
-#### Keys:
-Sadly, TinyTransition doesn't like keys on its children, so if you are iterating you need to wrap each child in an instance of TinyTransition like so:
-
-```js
-{myItems.map(item => (
-  <TinyTransition duration={500} key={item.id}>
-    <div>{item}</div>
-  </TinyTransition>
-}
-```
 
 #### Basic example:
 
@@ -51,15 +45,6 @@ import TinyTransition from "react-tiny-transition";
 </TinyTransition>
 ```
 
-Please note that TinyTransition will pass classnames through props.className, so remember to apply these in your component:
-
-```js
-const MyComponent = ({ className }) => (
-  <div className={"my-component " + className}>
-    "hello"
-  </div>
-);
-```
 
 #### CSS example:
 
@@ -82,18 +67,14 @@ const MyComponent = ({ className }) => (
 }
 ```
 
-#### Custom classnames example:
+#### Multiple elements:
+In order to keep TinyTransition as tiny as possible, one child only will get classnames applied. If you want to use TinyTransition on a list or something, you can wrap each child in a TinyTransition instance:
 
 ```js
-<TinyTransition
-  classNames={{
-    beforeEnter: "my-before-enter",
-    entering: "my-entering",
-    beforeLeave: "my-before-leave",
-    leaving: "my-leaving"
-  }}
-  duration={500}
->
-  {this.state.isVisible && <MyComponent />}
-</TinyTransition>
+{myItems.map(item => (
+  <TinyTransition key={item.id}>
+    <div>{item.text}</div>
+  </TinyTransition>
+}
 ```
+

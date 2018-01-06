@@ -1,174 +1,118 @@
-import React, { Component, Children } from "react";
+import React, { Children } from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
-const propTypes = {
-  children: PropTypes.node,
-  classNames: PropTypes.shape({
-    beforeEnter: PropTypes.string,
-    entering: PropTypes.string,
-    beforeLeave: PropTypes.string,
-    leaving: PropTypes.string
-  }),
-  duration: PropTypes.number.isRequired
-};
+import { canAnimate, resetClassList } from "./utils";
 
-class TinyTransitionWrapper extends Component {
-  static propTypes = propTypes;
+class TinyTransition extends React.Component {
+  static propTypes = {
+    children: PropTypes.node,
+    classNames: PropTypes.shape({
+      beforeEnter: PropTypes.string,
+      entering: PropTypes.string,
+      beforeLeave: PropTypes.string,
+      leaving: PropTypes.string
+    }),
+    delay: PropTypes.number,
+    duration: PropTypes.number.isRequired
+  };
+
+  static defaultProps = {
+    classNames: {
+      beforeEnter: "before-enter",
+      entering: "entering",
+      beforeLeave: "before-leave",
+      leaving: "leaving"
+    },
+    duration: 500,
+    delay: 0
+  };
 
   state = {
-    children: this.props.children
+    children: null
   };
 
-  timer;
+  animationTimer;
+  delayTimer;
 
-  componentWillReceiveProps(nextProps) {
-    const newChildren = Children.toArray(nextProps.children);
-    const oldChildren = Children.toArray(this.props.children);
+  animateIn = ({ children, classNames, delay, duration }) => {
+    const { beforeEnter, entering } = classNames;
 
-    if (newChildren.length < oldChildren.length) {
-      this.setState(
-        {
-          children: oldChildren.map(
-            (oldChild, index) =>
-              newChildren.every(newChild => newChild.key !== oldChild.key)
-                ? null
-                : this.props.children[index]
-          )
-        },
-        () => {
-          clearTimeout(this.timer);
-          this.timer = setTimeout(() => {
-            this.setState({ children: nextProps.children });
-          }, this.props.duration);
-        }
-      );
-    } else {
-      clearTimeout(this.timer);
-      this.setState({ children: nextProps.children });
-    }
-  }
+    clearTimeout(this.delayTimer);
+    this.delayTimer = setTimeout(() => {
+      this.setState({ children }, () => {
+        const node = ReactDOM.findDOMNode(this);
 
-  render() {
-    return Children.map(this.state.children, child => {
-      return (
-        <TinyTransition
-          duration={this.props.duration}
-          classNames={this.props.classNames}
-        >
-          {child}
-        </TinyTransition>
-      );
-    });
-  }
-}
+        if (node) {
+          resetClassList(node, classNames);
 
-const transitionStates = {
-  beforeEnter: "before-enter",
-  entering: "entering",
-  beforeLeave: "before-leave",
-  leaving: "leaving"
-};
+          requestAnimationFrame(() => {
+            node.classList.add(beforeEnter);
 
-function cn(...classNames) {
-  return [...classNames].filter(className => !!className).join(" ");
-}
-
-class TinyTransition extends Component {
-  static propTypes = propTypes;
-
-  state = {
-    children: this.props.children,
-    transitionState: "",
-    transitionClassNames: Object.assign(
-      {},
-      transitionStates,
-      this.props.classNames
-    )
-  };
-
-  timer;
-
-  getClassName = transitionState => {
-    const {
-      beforeEnter,
-      entering,
-      beforeLeave,
-      leaving
-    } = this.state.transitionClassNames;
-
-    switch (transitionState) {
-      case transitionStates.beforeEnter:
-        return beforeEnter;
-      case transitionStates.entering:
-        return cn(beforeEnter, entering);
-      case transitionStates.beforeLeave:
-        return beforeLeave;
-      case transitionStates.leaving:
-        return cn(beforeLeave, leaving);
-      default:
-        return "";
-    }
-  };
-
-  animateIn = children => {
-    const { beforeEnter, entering } = transitionStates;
-    this.setState(
-      {
-        children,
-        transitionState: beforeEnter
-      },
-      () => {
-        setTimeout(() => {
-          this.setState({ transitionState: entering }, () => {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-              this.setState({ transitionState: "" });
-            }, this.props.duration);
-          });
-        }, 16);
-      }
-    );
-  };
-
-  animateOut = children => {
-    const { beforeLeave, leaving } = transitionStates;
-    this.setState({ transitionState: beforeLeave }, () => {
-      setTimeout(() => {
-        this.setState({ transitionState: leaving }, () => {
-          clearTimeout(this.timer);
-          this.timer = setTimeout(() => {
-            this.setState({
-              children,
-              transitionState: ""
+            requestAnimationFrame(() => {
+              node.classList.add(entering);
             });
-          }, this.props.duration);
+
+            clearTimeout(this.animationTimer);
+            this.animationTimer = setTimeout(() => {
+              resetClassList(node, classNames);
+            }, duration);
+          });
+        }
+      });
+    }, delay);
+  };
+
+  animateOut = ({ children, classNames, delay, duration }) => {
+    const { beforeLeave, leaving } = classNames;
+    const node = ReactDOM.findDOMNode(this);
+
+    if (node) {
+      clearTimeout(this.delayTimer);
+      this.delayTimer = setTimeout(() => {
+        resetClassList(node, classNames);
+
+        requestAnimationFrame(() => {
+          node.classList.add(beforeLeave);
+
+          requestAnimationFrame(() => {
+            node.classList.add(leaving);
+          });
+
+          clearTimeout(this.animationTimer);
+          this.animationTimer = setTimeout(() => {
+            resetClassList(node, classNames);
+            this.setState({ children });
+          }, duration);
         });
-      }, 16);
-    });
+      }, delay);
+    }
   };
 
   componentDidMount() {
-    if (this.props.children) {
-      this.animateIn(this.props.children);
+    if (this.props.children && canAnimate(true)) {
+      requestAnimationFrame(() => {
+        this.animateIn(this.props);
+      });
     }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timer);
+    clearTimeout(this.animationTimer);
   }
 
   componentWillReceiveProps(nextProps) {
     const newChildren = Children.toArray(nextProps.children);
     const oldChildren = Children.toArray(this.props.children);
 
-    if (newChildren.length !== oldChildren.length) {
+    if (newChildren.length !== oldChildren.length && canAnimate()) {
       // Element was added or removed
       if (newChildren.length) {
         // Element is about to mount
-        this.animateIn(nextProps.children);
+        this.animateIn(nextProps);
       } else {
         // Element is about to unmount
-        this.animateOut(nextProps.children);
+        this.animateOut(nextProps);
       }
     } else {
       this.setState({
@@ -178,19 +122,8 @@ class TinyTransition extends Component {
   }
 
   render() {
-    const children = this.state.children;
-    const childrenClass =
-      (children && children.props && children.props.className) || "";
-
-    return children
-      ? React.cloneElement(children, {
-          className: cn(
-            childrenClass,
-            this.getClassName(this.state.transitionState)
-          )
-        })
-      : null;
+    return this.state.children;
   }
 }
 
-export default TinyTransitionWrapper;
+export default TinyTransition;

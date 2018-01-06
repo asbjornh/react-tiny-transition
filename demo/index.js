@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { render } from "react-dom";
 
 import TinyTransition from "../src";
+
+const TestComponent = ({ children }) => <h2 className="test">{children}</h2>;
 
 class Main extends React.Component {
   state = {
@@ -19,14 +22,14 @@ class Main extends React.Component {
       <div>
         <style>
           {`
-            h1 {
+            h2 {
               font-size: 80px;
               display: inline-block;
             }
             
             .before-enter {
               opacity: 0;
-              transform: translateY(75px) scale(0.5);
+              transform: translateX(75px);
             }
 
             .entering {
@@ -48,9 +51,13 @@ class Main extends React.Component {
         <button onClick={this.toggle}>Toggle content</button>
 
         <div>
-          <TinyTransition duration={500}>
-            {this.state.contentIsVisible && <h1 className="test">Hello!</h1>}
-          </TinyTransition>
+          {["Tiny", "Transition"].map((el, index) => (
+            <TinyTransition delay={index * 100} key={el}>
+              {this.state.contentIsVisible && (
+                <TestComponent>{el}</TestComponent>
+              )}
+            </TinyTransition>
+          ))}
         </div>
       </div>
     );
