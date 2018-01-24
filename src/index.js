@@ -13,6 +13,7 @@ class TinyTransition extends React.Component {
       beforeLeave: PropTypes.string,
       leaving: PropTypes.string
     }),
+    disableInitialAnimation: PropTypes.bool,
     delay: PropTypes.number,
     duration: PropTypes.number.isRequired
   };
@@ -29,7 +30,7 @@ class TinyTransition extends React.Component {
   };
 
   state = {
-    children: null
+    children: this.props.disableInitialAnimation ? this.props.children : null
   };
 
   animationTimer;
@@ -90,7 +91,11 @@ class TinyTransition extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.children && canAnimate(true)) {
+    if (
+      this.props.children &&
+      !this.props.disableInitialAnimation &&
+      canAnimate(true)
+    ) {
       requestAnimationFrame(() => {
         this.animateIn(this.props);
       });

@@ -26,6 +26,7 @@ npm install react-tiny-transition
 | Prop         | Type          | Default | Description                                                                       |
 | ------------ | ------------- | --------- | --------------------------------------------------------------------------------- |
 | `duration`   | Number        | 500       | The duration of your css transition (milliseconds)                              |
+| `disableInitialAnimation` | Boolean | false | Disable the animation when TinyTransition mounts
 | `delay`      | Number        | 0         | Delay before adding classnames (milliseconds)
 | `children`   | React element |         | Single React element
 | `classNames` | Object        | <pre>{<br>  beforeEnter: "before-enter",<br>  entering: "entering",<br>  beforeLeave: "before-leave",<br>  leaving: "leaving"<br>}</pre>    | Classnames to use when mounting / unmounting |
