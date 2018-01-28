@@ -69,13 +69,5 @@ import TinyTransition from "react-tiny-transition";
 ```
 
 #### Multiple elements:
-In order to keep TinyTransition as tiny as possible, one child only will get classnames applied. If you want to use TinyTransition on a list or something, you can wrap each child in a TinyTransition instance:
-
-```js
-{myItems.map(item => (
-  <TinyTransition key={item.id}>
-    <div>{item.text}</div>
-  </TinyTransition>
-}
-```
+In order to keep TinyTransition as tiny as possible, one child only will get classnames applied. If you want transitions on lists of things, you could try [react-flip-move](https://github.com/joshwcomeau/react-flip-move) or [react-flip-motion](https://github.com/asbjornh/react-flip-motion).
 
