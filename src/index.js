@@ -35,11 +35,13 @@ class TinyTransition extends React.Component {
 
   animationTimer;
   delayTimer;
+  isAnimating = false;
 
   animateIn = ({ children, classNames, delay, duration }) => {
     const { beforeEnter, entering } = classNames;
-
+    this.isAnimating = true;
     clearTimeout(this.delayTimer);
+
     this.delayTimer = setTimeout(() => {
       this.setState({ children }, () => {
         const node = ReactDOM.findDOMNode(this);
@@ -57,6 +59,7 @@ class TinyTransition extends React.Component {
             clearTimeout(this.animationTimer);
             this.animationTimer = setTimeout(() => {
               resetClassList(node, classNames);
+              this.isAnimating = false;
             }, duration);
           });
         }
@@ -69,7 +72,9 @@ class TinyTransition extends React.Component {
     const node = ReactDOM.findDOMNode(this);
 
     if (node) {
+      this.isAnimating = true;
       clearTimeout(this.delayTimer);
+
       this.delayTimer = setTimeout(() => {
         resetClassList(node, classNames);
 
@@ -83,6 +88,7 @@ class TinyTransition extends React.Component {
           clearTimeout(this.animationTimer);
           this.animationTimer = setTimeout(() => {
             resetClassList(node, classNames);
+            this.isAnimating = false;
             this.setState({ children });
           }, duration);
         });
@@ -119,7 +125,7 @@ class TinyTransition extends React.Component {
         // Element is about to unmount
         this.animateOut(nextProps);
       }
-    } else {
+    } else if (!this.isAnimating) {
       this.setState({
         children: nextProps.children
       });
