@@ -9,7 +9,11 @@ This component does not include any transition effects; you need to add your own
 ### Browser support:
 TinyTransition needs `requestAnimationFrame` and `element.classList` in order to do its thing, so make sure to add polyfills if you need to support older browsers (like IE9 and below).
 
-### Install:
+### Other Tiny libraries
+* [react-tiny-crossfade](https://github.com/asbjornh/react-tiny-crossfade)
+
+
+## Install:
 
 ```
 yarn add react-tiny-transition
@@ -21,7 +25,7 @@ or
 npm install react-tiny-transition
 ```
 
-### Props:
+## Props:
 
 | Prop         | Type          | Default | Description                                                                       |
 | ------------ | ------------- | --------- | --------------------------------------------------------------------------------- |
