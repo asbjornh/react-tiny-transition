@@ -19,6 +19,7 @@ class TinyTransition extends React.Component {
   };
 
   static defaultProps = {
+    children: null,
     classNames: {
       beforeEnter: "before-enter",
       entering: "entering",
