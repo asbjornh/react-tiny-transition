@@ -37,6 +37,7 @@ class TinyTransition extends React.Component {
   animationTimer;
   delayTimer;
   isAnimating = false;
+  raf;
 
   animateIn = ({ children, classNames, delay, duration }) => {
     const { beforeEnter, entering } = classNames;
@@ -50,10 +51,10 @@ class TinyTransition extends React.Component {
         if (node) {
           resetClassList(node, classNames);
 
-          requestAnimationFrame(() => {
+          this.raf = requestAnimationFrame(() => {
             node.classList.add(beforeEnter);
 
-            requestAnimationFrame(() => {
+            this.raf = requestAnimationFrame(() => {
               node.classList.add(entering);
             });
 
@@ -79,10 +80,10 @@ class TinyTransition extends React.Component {
       this.delayTimer = setTimeout(() => {
         resetClassList(node, classNames);
 
-        requestAnimationFrame(() => {
+        this.raf = requestAnimationFrame(() => {
           node.classList.add(beforeLeave);
 
-          requestAnimationFrame(() => {
+          this.raf = requestAnimationFrame(() => {
             node.classList.add(leaving);
           });
 
@@ -103,14 +104,16 @@ class TinyTransition extends React.Component {
       !this.props.disableInitialAnimation &&
       canAnimate(true)
     ) {
-      requestAnimationFrame(() => {
+      this.raf = requestAnimationFrame(() => {
         this.animateIn(this.props);
       });
     }
   }
 
   componentWillUnmount() {
+    cancelAnimationFrame(this.raf);
     clearTimeout(this.animationTimer);
+    clearTimeout(this.delayTimer);
   }
 
   componentWillReceiveProps(nextProps) {

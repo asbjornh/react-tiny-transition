@@ -1,6 +1,6 @@
 {
   "name": "react-tiny-transition",
-  "version": "2.1.4",
+  "version": "2.1.8",
   "description":
     "A small component that adds class names on mount/unmount for you to add css transitions to",
   "main": "lib/index.js",
@@ -11,6 +11,7 @@
     "pub": "npm test && npm start && npm publish",
     "dev": "webpack-dev-server --content-base dist/ --inline"
   },
+  "readme": "README.md",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/asbjornh/react-tiny-transition.git"
