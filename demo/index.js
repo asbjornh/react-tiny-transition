@@ -51,13 +51,14 @@ class Main extends React.Component {
         <button onClick={this.toggle}>Toggle content</button>
 
         <div>
-          {["Tiny", "Transition"].map((el, index) => (
-            <TinyTransition delay={index * 100} key={el}>
-              {this.state.contentIsVisible && (
-                <TestComponent>{el}</TestComponent>
-              )}
-            </TinyTransition>
-          ))}
+          <TinyTransition>
+            {this.state.contentIsVisible && <TestComponent>Tiny</TestComponent>}
+          </TinyTransition>
+          <TinyTransition delay={100}>
+            {this.state.contentIsVisible && (
+              <TestComponent>Transition</TestComponent>
+            )}
+          </TinyTransition>
         </div>
       </div>
     );

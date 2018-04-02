@@ -43,6 +43,7 @@ class TinyTransition extends React.Component {
     cancelAnimationFrame(this.raf);
     clearTimeout(this.animationTimer);
     clearTimeout(this.delayTimer);
+    this.isAnimating = false;
   };
 
   animateIn = () => {
@@ -51,8 +52,8 @@ class TinyTransition extends React.Component {
       return;
     }
 
-    this.isAnimating = true;
     this.clearTimers();
+    this.isAnimating = true;
 
     this.delayTimer = setTimeout(() => {
       this.setState({ children: this.props.children }, () => {
@@ -72,6 +73,7 @@ class TinyTransition extends React.Component {
             this.animationTimer = setTimeout(() => {
               resetClassList(node, classNames);
               this.isAnimating = false;
+              this.setState({});
             }, this.props.duration);
           });
         }
@@ -89,8 +91,8 @@ class TinyTransition extends React.Component {
     const { classNames } = this.props;
 
     if (node) {
-      this.isAnimating = true;
       this.clearTimers();
+      this.isAnimating = true;
 
       this.delayTimer = setTimeout(() => {
         resetClassList(node, classNames);
