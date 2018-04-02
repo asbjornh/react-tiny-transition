@@ -39,100 +39,106 @@ class TinyTransition extends React.Component {
   isAnimating = false;
   raf;
 
-  animateIn = ({ children, classNames, delay, duration }) => {
-    const { beforeEnter, entering } = classNames;
-    this.isAnimating = true;
+  clearTimers = () => {
+    cancelAnimationFrame(this.raf);
+    clearTimeout(this.animationTimer);
     clearTimeout(this.delayTimer);
+  };
+
+  animateIn = () => {
+    if (!canAnimate()) {
+      this.setState({ children: this.props.children });
+      return;
+    }
+
+    this.isAnimating = true;
+    this.clearTimers();
 
     this.delayTimer = setTimeout(() => {
-      this.setState({ children }, () => {
+      this.setState({ children: this.props.children }, () => {
         const node = ReactDOM.findDOMNode(this);
+        const { classNames } = this.props;
 
         if (node) {
           resetClassList(node, classNames);
 
           this.raf = requestAnimationFrame(() => {
-            node.classList.add(beforeEnter);
+            node.classList.add(classNames.beforeEnter);
 
             this.raf = requestAnimationFrame(() => {
-              node.classList.add(entering);
+              node.classList.add(classNames.entering);
             });
 
-            clearTimeout(this.animationTimer);
             this.animationTimer = setTimeout(() => {
               resetClassList(node, classNames);
               this.isAnimating = false;
-            }, duration);
+            }, this.props.duration);
           });
         }
       });
-    }, delay);
+    }, this.props.delay);
   };
 
-  animateOut = ({ children, classNames, delay, duration }) => {
-    const { beforeLeave, leaving } = classNames;
+  animateOut = () => {
+    if (!canAnimate()) {
+      this.setState({ children: this.props.children });
+      return;
+    }
+
     const node = ReactDOM.findDOMNode(this);
+    const { classNames } = this.props;
 
     if (node) {
       this.isAnimating = true;
-      clearTimeout(this.delayTimer);
+      this.clearTimers();
 
       this.delayTimer = setTimeout(() => {
         resetClassList(node, classNames);
 
         this.raf = requestAnimationFrame(() => {
-          node.classList.add(beforeLeave);
+          node.classList.add(classNames.beforeLeave);
 
           this.raf = requestAnimationFrame(() => {
-            node.classList.add(leaving);
+            node.classList.add(classNames.leaving);
           });
 
-          clearTimeout(this.animationTimer);
           this.animationTimer = setTimeout(() => {
             resetClassList(node, classNames);
             this.isAnimating = false;
-            this.setState({ children });
-          }, duration);
+            this.setState({ children: this.props.children });
+          }, this.props.duration);
         });
-      }, delay);
+      }, this.props.delay);
     }
   };
 
   componentDidMount() {
-    if (
-      this.props.children &&
-      !this.props.disableInitialAnimation &&
-      canAnimate(true)
-    ) {
+    if (this.props.children && !this.props.disableInitialAnimation) {
       this.raf = requestAnimationFrame(() => {
-        this.animateIn(this.props);
+        this.animateIn();
       });
     }
   }
 
   componentWillUnmount() {
-    cancelAnimationFrame(this.raf);
-    clearTimeout(this.animationTimer);
-    clearTimeout(this.delayTimer);
+    this.clearTimers();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const newChildren = Children.toArray(nextProps.children);
-    const oldChildren = Children.toArray(this.props.children);
+  componentDidUpdate(prevProps) {
+    const newChildren = Children.toArray(this.props.children);
+    const oldChildren = Children.toArray(prevProps.children);
 
-    if (newChildren.length !== oldChildren.length && canAnimate()) {
-      // Element was added or removed
+    if (newChildren.length !== oldChildren.length) {
       if (newChildren.length) {
-        // Element is about to mount
-        this.animateIn(nextProps);
+        this.animateIn();
       } else {
-        // Element is about to unmount
-        this.animateOut(nextProps);
+        this.animateOut();
       }
-    } else if (!this.isAnimating) {
-      this.setState({
-        children: nextProps.children
-      });
+    } else if (
+      this.props.children !== this.state.children &&
+      !this.isAnimating
+    ) {
+      this.setState({ children: this.props.children });
     }
   }
 
