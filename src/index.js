@@ -39,6 +39,18 @@ class TinyTransition extends React.Component {
   isAnimating = false;
   raf;
 
+  waitForNode = callback => {
+    const node = ReactDOM.findDOMNode(this);
+
+    if (node) {
+      callback(node);
+    } else {
+      this.raf = requestAnimationFrame(() => {
+        callback(node);
+      });
+    }
+  };
+
   clearTimers = () => {
     cancelAnimationFrame(this.raf);
     clearTimeout(this.animationTimer);
@@ -57,26 +69,24 @@ class TinyTransition extends React.Component {
 
     this.delayTimer = setTimeout(() => {
       this.setState({ children: this.props.children }, () => {
-        const node = ReactDOM.findDOMNode(this);
         const { classNames } = this.props;
 
-        if (node) {
+        this.waitForNode(node => {
           resetClassList(node, classNames);
+          node.classList.add(classNames.beforeEnter);
 
           this.raf = requestAnimationFrame(() => {
-            node.classList.add(classNames.beforeEnter);
-
             this.raf = requestAnimationFrame(() => {
               node.classList.add(classNames.entering);
             });
-
-            this.animationTimer = setTimeout(() => {
-              resetClassList(node, classNames);
-              this.isAnimating = false;
-              this.setState({});
-            }, this.props.duration);
           });
-        }
+
+          this.animationTimer = setTimeout(() => {
+            resetClassList(node, classNames);
+            this.isAnimating = false;
+            this.setState({});
+          }, this.props.duration);
+        });
       });
     }, this.props.delay);
   };
@@ -97,19 +107,16 @@ class TinyTransition extends React.Component {
       this.delayTimer = setTimeout(() => {
         resetClassList(node, classNames);
 
+        node.classList.add(classNames.beforeLeave);
+
         this.raf = requestAnimationFrame(() => {
-          node.classList.add(classNames.beforeLeave);
-
-          this.raf = requestAnimationFrame(() => {
-            node.classList.add(classNames.leaving);
-          });
-
-          this.animationTimer = setTimeout(() => {
-            resetClassList(node, classNames);
-            this.isAnimating = false;
-            this.setState({ children: this.props.children });
-          }, this.props.duration);
+          node.classList.add(classNames.leaving);
         });
+
+        this.animationTimer = setTimeout(() => {
+          this.isAnimating = false;
+          this.setState({ children: this.props.children });
+        }, this.props.duration);
       }, this.props.delay);
     }
   };
