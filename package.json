@@ -1,6 +1,6 @@
 {
   "name": "react-tiny-transition",
-  "version": "2.2.3",
+  "version": "2.2.5",
   "description":
     "A small component that adds class names on mount/unmount for you to add css transitions to",
   "main": "lib/index.js",

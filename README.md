@@ -11,32 +11,55 @@ TinyTransition needs `requestAnimationFrame` and `element.classList` in order to
 
 ### Other Tiny libraries
 * [react-tiny-crossfade](https://github.com/asbjornh/react-tiny-crossfade)
+* [react-tiny-collapse](https://github.com/asbjornh/react-tiny-collapse)
 
 
-## Install:
-
-```
-yarn add react-tiny-transition
-```
-
-or
+### Install:
 
 ```
 npm install react-tiny-transition
 ```
 
-## Props:
+## API:
 
-| Prop         | Type          | Default | Description                                                                       |
-| ------------ | ------------- | --------- | --------------------------------------------------------------------------------- |
-| `duration`   | Number        | 500       | The duration of your css transition (milliseconds)                              |
-| `disableInitialAnimation` | Boolean | false | Disable the animation when TinyTransition mounts
-| `delay`      | Number        | 0         | Delay before adding classnames (milliseconds)
-| `children`   | React element |         | Single React element
-| `classNames` | Object        | <pre>{<br>  beforeEnter: "before-enter",<br>  entering: "entering",<br>  beforeLeave: "before-leave",<br>  leaving: "leaving"<br>}</pre>    | Classnames to use when mounting / unmounting |
+**duration** : Number = `500`
+<br/>The duration of your css transition (milliseconds)
+
+---
 
 
-#### Basic example:
+**disableInitialAnimation** : Boolean = `false`
+<br/>Disable the animation when TinyTransition mounts
+
+---
+
+**delay** : Number = `0`
+<br/>Delay before adding classnames (milliseconds)
+
+---
+
+**children** : React element
+<br/>Single React element
+
+---
+
+**classNames**:  Object
+<br/>Default:
+
+```js
+{
+	beforeEnter: "before-enter",
+	entering: "entering",
+	beforeLeave: "before-leave",
+	leaving: "leaving"
+}
+```
+Classnames to use when mounting / unmounting
+
+---
+
+
+## Basic example:
 
 ```js
 import TinyTransition from "react-tiny-transition";
@@ -51,7 +74,7 @@ import TinyTransition from "react-tiny-transition";
 ```
 
 
-#### CSS example:
+## CSS example:
 
 ```css
 .before-enter {
@@ -72,6 +95,6 @@ import TinyTransition from "react-tiny-transition";
 }
 ```
 
-#### Multiple elements:
+## Multiple elements:
 In order to keep TinyTransition as tiny as possible, one child only will get classnames applied. If you want transitions on lists of things, you could try [react-flip-move](https://github.com/joshwcomeau/react-flip-move) or [react-flip-motion](https://github.com/asbjornh/react-flip-motion).
 
