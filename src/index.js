@@ -40,13 +40,17 @@ class TinyTransition extends React.Component {
   raf;
 
   waitForNode = callback => {
+    if (!this) {
+      return;
+    }
+
     const node = ReactDOM.findDOMNode(this);
 
     if (node) {
       callback(node);
     } else {
       this.raf = requestAnimationFrame(() => {
-        callback(node);
+        this.waitForNode(callback);
       });
     }
   };
@@ -100,25 +104,27 @@ class TinyTransition extends React.Component {
     const node = ReactDOM.findDOMNode(this);
     const { classNames } = this.props;
 
-    if (node) {
-      this.clearTimers();
-      this.isAnimating = true;
-
-      this.delayTimer = setTimeout(() => {
-        resetClassList(node, classNames);
-
-        node.classList.add(classNames.beforeLeave);
-
-        this.raf = requestAnimationFrame(() => {
-          node.classList.add(classNames.leaving);
-        });
-
-        this.animationTimer = setTimeout(() => {
-          this.isAnimating = false;
-          this.setState({ children: this.props.children });
-        }, this.props.duration);
-      }, this.props.delay);
+    if (!node) {
+      return;
     }
+
+    this.clearTimers();
+    this.isAnimating = true;
+
+    this.delayTimer = setTimeout(() => {
+      resetClassList(node, classNames);
+
+      node.classList.add(classNames.beforeLeave);
+
+      this.raf = requestAnimationFrame(() => {
+        node.classList.add(classNames.leaving);
+      });
+
+      this.animationTimer = setTimeout(() => {
+        this.isAnimating = false;
+        this.setState({ children: this.props.children });
+      }, this.props.duration);
+    }, this.props.delay);
   };
 
   componentDidMount() {
