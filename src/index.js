@@ -77,11 +77,11 @@ class TinyTransition extends React.Component {
 
         this.waitForNode(node => {
           resetClassList(node, classNames);
-          node.classList.add(classNames.beforeEnter);
+          node.classList.add(...classNames.beforeEnter.split(' '));
 
           this.raf = requestAnimationFrame(() => {
             this.raf = requestAnimationFrame(() => {
-              node && node.classList.add(classNames.entering);
+              node && node.classList.add(...classNames.entering.split(' '));
             });
           });
 
@@ -113,10 +113,10 @@ class TinyTransition extends React.Component {
 
     this.delayTimer = setTimeout(() => {
       node && resetClassList(node, classNames);
-      node && node.classList.add(classNames.beforeLeave);
+      node && node.classList.add(...classNames.beforeLeave.split(' '));
 
       this.raf = requestAnimationFrame(() => {
-        node && node.classList.add(classNames.leaving);
+        node && node.classList.add(...classNames.leaving.split(' '));
       });
 
       this.animationTimer = setTimeout(() => {

@@ -135,7 +135,7 @@ describe("TinyTransition", () => {
               beforeEnter: "test1",
               entering: "test2",
               beforeLeave: "test3",
-              leaving: "test4"
+              leaving: "test4 test5"
             }}
           >
             {this.state.contentIsVisible && <View>{"foo"}</View>}
@@ -157,7 +157,7 @@ describe("TinyTransition", () => {
 
         testComponent.setState({ contentIsVisible: false }, () => {
           setTimeout(() => {
-            expect(node.getAttribute("class")).toBe("test3 test4");
+            expect(node.getAttribute("class")).toBe("test3 test4 test5");
             done();
           }, 25);
         });

@@ -9,7 +9,7 @@ function logError(...whatevs) {
 export function resetClassList(node, classNames) {
   if (node) {
     Object.keys(classNames).forEach(key => {
-      node.classList.remove(classNames[key]);
+      node.classList.remove(...classNames[key].split(' '));
     });
   }
 }
