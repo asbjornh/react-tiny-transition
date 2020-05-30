@@ -7,7 +7,7 @@ import { addClasses, canAnimate, resetClassList } from "./utils";
 class TinyTransition extends React.Component {
   static propTypes = {
     children: PropTypes.node,
-    classNames: PropTypes.shape({
+    classNames: PropTypes.exact({
       beforeEnter: PropTypes.string,
       entering: PropTypes.string,
       beforeLeave: PropTypes.string,
