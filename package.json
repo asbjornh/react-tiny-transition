@@ -1,15 +1,16 @@
 {
   "name": "react-tiny-transition",
-  "version": "2.2.7",
+  "version": "2.3.0",
   "description": "A small component that adds class names on mount/unmount for you to add css transitions to",
   "main": "lib/index.js",
   "files": [
     "lib",
+    "CHANGELOG.md",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
-    "build": "rm -fr lib/ && babel src --out-dir lib --ignore='__tests__'",
+    "build": "rm -fr lib/ && babel src --out-dir lib --ignore='src/__tests__'",
     "test": "jest --verbose",
     "pub": "npm test && npm build && npm publish",
     "dev": "webpack-dev-server --content-base dist/ --inline"
