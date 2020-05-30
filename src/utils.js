@@ -1,32 +1,22 @@
-/* eslint-disable no-console */
+// NOTE: DOMTokenList errors out when passed empty strings (which can happen when splitting by a single space and there's multiple spaces, tabs etc)
+const toList = (classes = "") => classes.split(/\s+/g);
 
-function logError(...whatevs) {
-  if (process.env.NODE_ENV !== "production") {
-    console.error(...whatevs);
-  }
+// NOTE: Internet Explorer does not support multiple arguments to `DOMTokenList.add`
+export function addClasses(node, classString) {
+  if (!node) return;
+  toList(classString).forEach(className => node.classList.add(className));
 }
 
-export function resetClassList(node, classNames) {
-  if (node) {
-    Object.keys(classNames).forEach(key => {
-      node.classList.remove(...classNames[key].split(' '));
-    });
-  }
+// NOTE: Internet Explorer does not support multiple arguments to `DOMTokenList.remove`
+export function resetClassList(node, classNames = {}) {
+  if (!node) return;
+  Object.values(classNames).forEach(value => {
+    toList(value).forEach(className => node.classList.remove(className));
+  });
 }
 
-export function canAnimate(shouldLogError) {
+export function canAnimate() {
   const raf = !!(window && window.requestAnimationFrame);
   const classList = !!(document && document.body && document.body.classList);
-  const errorMessage = featureName =>
-    `TinyTransition: Your browser doesn't support ${featureName}. Consider adding a polyfill.`;
-
-  if (shouldLogError && !raf) {
-    logError(errorMessage("requestAnimationFrame"));
-  }
-
-  if (shouldLogError && !classList) {
-    logError(errorMessage("element.classList"));
-  }
-
   return raf && classList;
 }

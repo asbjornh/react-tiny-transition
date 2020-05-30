@@ -2,7 +2,7 @@ import React, { Children } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
-import { canAnimate, resetClassList } from "./utils";
+import { addClasses, canAnimate, resetClassList } from "./utils";
 
 class TinyTransition extends React.Component {
   static propTypes = {
@@ -40,9 +40,7 @@ class TinyTransition extends React.Component {
   raf;
 
   waitForNode = callback => {
-    if (!this) {
-      return;
-    }
+    if (!this) return;
 
     const node = ReactDOM.findDOMNode(this);
 
@@ -77,16 +75,16 @@ class TinyTransition extends React.Component {
 
         this.waitForNode(node => {
           resetClassList(node, classNames);
-          node.classList.add(...classNames.beforeEnter.split(' '));
+          addClasses(node, classNames.beforeEnter);
 
           this.raf = requestAnimationFrame(() => {
             this.raf = requestAnimationFrame(() => {
-              node && node.classList.add(...classNames.entering.split(' '));
+              addClasses(node, classNames.entering);
             });
           });
 
           this.animationTimer = setTimeout(() => {
-            node && resetClassList(node, classNames);
+            resetClassList(node, classNames);
             this.isAnimating = false;
             this.setState({});
           }, this.props.duration);
@@ -104,19 +102,17 @@ class TinyTransition extends React.Component {
     const node = ReactDOM.findDOMNode(this);
     const { classNames } = this.props;
 
-    if (!node) {
-      return;
-    }
+    if (!node) return;
 
     this.clearTimers();
     this.isAnimating = true;
 
     this.delayTimer = setTimeout(() => {
-      node && resetClassList(node, classNames);
-      node && node.classList.add(...classNames.beforeLeave.split(' '));
+      resetClassList(node, classNames);
+      addClasses(node, classNames.beforeLeave);
 
       this.raf = requestAnimationFrame(() => {
-        node && node.classList.add(...classNames.leaving.split(' '));
+        addClasses(node, classNames.leaving);
       });
 
       this.animationTimer = setTimeout(() => {
