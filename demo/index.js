@@ -8,12 +8,12 @@ const TestComponent = ({ children }) => <h2 className="test">{children}</h2>;
 
 class Main extends React.Component {
   state = {
-    contentIsVisible: true
+    contentIsVisible: true,
   };
 
   toggle = () => {
     this.setState(state => ({
-      contentIsVisible: !state.contentIsVisible
+      contentIsVisible: !state.contentIsVisible,
     }));
   };
 
@@ -65,6 +65,6 @@ class Main extends React.Component {
   }
 }
 
-window.onload = function() {
+window.onload = function () {
   render(<Main />, document.getElementById("App"));
 };

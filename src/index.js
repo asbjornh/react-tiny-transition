@@ -11,11 +11,11 @@ class TinyTransition extends React.Component {
       beforeEnter: PropTypes.string,
       entering: PropTypes.string,
       beforeLeave: PropTypes.string,
-      leaving: PropTypes.string
+      leaving: PropTypes.string,
     }),
     disableInitialAnimation: PropTypes.bool,
     delay: PropTypes.number,
-    duration: PropTypes.number.isRequired
+    duration: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -24,14 +24,14 @@ class TinyTransition extends React.Component {
       beforeEnter: "before-enter",
       entering: "entering",
       beforeLeave: "before-leave",
-      leaving: "leaving"
+      leaving: "leaving",
     },
     duration: 500,
-    delay: 0
+    delay: 0,
   };
 
   state = {
-    children: this.props.disableInitialAnimation ? this.props.children : null
+    children: this.props.disableInitialAnimation ? this.props.children : null,
   };
 
   animationTimer;

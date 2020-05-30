@@ -78,7 +78,7 @@ describe("TinyTransition", () => {
       constructor(props) {
         super(props);
         this.state = {
-          contentIsVisible: false
+          contentIsVisible: false,
         };
       }
       render() {
@@ -93,7 +93,7 @@ describe("TinyTransition", () => {
     const testComponent = TestUtils.renderIntoDocument(<TestComponent />);
 
     testComponent.setState({
-      contentIsVisible: true
+      contentIsVisible: true,
     });
 
     return new Promise(done => {
@@ -124,7 +124,7 @@ describe("TinyTransition", () => {
       constructor(props) {
         super(props);
         this.state = {
-          contentIsVisible: false
+          contentIsVisible: false,
         };
       }
       render() {
@@ -135,7 +135,7 @@ describe("TinyTransition", () => {
               beforeEnter: "test1",
               entering: "test2",
               beforeLeave: "test3",
-              leaving: "test4     test5" // NOTE: Ensure that nothing breaks because of extra spaces
+              leaving: "test4     test5", // NOTE: Ensure that nothing breaks because of extra spaces
             }}
           >
             {this.state.contentIsVisible && <View>{"foo"}</View>}
@@ -176,7 +176,7 @@ describe("TinyTransition", () => {
       constructor(props) {
         super(props);
         this.state = {
-          contentIsVisible: true
+          contentIsVisible: true,
         };
       }
       render() {
@@ -198,7 +198,7 @@ describe("TinyTransition", () => {
       // Need to delay hiding because the first render returns null. Hiding children before they have been rendered means there are no children to hide
       setTimeout(() => {
         testComponent.setState({
-          contentIsVisible: false
+          contentIsVisible: false,
         });
 
         setTimeout(() => {
