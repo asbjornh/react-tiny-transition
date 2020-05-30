@@ -135,7 +135,7 @@ describe("TinyTransition", () => {
               beforeEnter: "test1",
               entering: "test2",
               beforeLeave: "test3",
-              leaving: "test4 test5"
+              leaving: "test4     test5" // NOTE: Ensure that nothing breaks because of extra spaces
             }}
           >
             {this.state.contentIsVisible && <View>{"foo"}</View>}
