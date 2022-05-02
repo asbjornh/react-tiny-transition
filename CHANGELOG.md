@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.0
+
+- Adds `react@18.0.0` and `react-dom@18.0.0` as peer dependencies
+
 ## 2.4.0
 
 - Adds `react@17.0.0` and `react-dom@17.0.0` as peer dependencies

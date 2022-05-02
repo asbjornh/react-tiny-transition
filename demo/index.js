@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import TinyTransition from "../src";
 
@@ -66,5 +66,6 @@ class Main extends React.Component {
 }
 
 window.onload = function () {
-  render(<Main />, document.getElementById("App"));
+  const root = createRoot(document.getElementById("App"));
+  root.render(<Main />);
 };
